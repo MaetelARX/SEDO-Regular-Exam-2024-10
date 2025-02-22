@@ -1,0 +1,27 @@
+name: Develop CI
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-and-test-develop:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'  # Adjust if you use a different .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: dotnet test HouseRentingSystem.UnitTests --no-build --configuration Release
